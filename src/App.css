@@ -1,0 +1,80 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+header {
+  margin-bottom: 3rem;
+}
+
+.task__inner {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 1rem;
+}
+
+.task-form {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: stretch;
+  margin-bottom: 2.5rem;
+}
+
+.task-form input {
+  flex: 1 1 auto;
+}
+
+.add-button {
+  flex: 0 1 auto;
+  margin-left: 1rem;
+  font-size: 1rem;
+}
+
+.task-list {
+  margin: 0;
+  padding-left: 1rem;
+}
+
+.task:not( :last-of-type ) {
+  margin-bottom: 1.5rem;
+}
+
+.task__title {
+  flex: 1 1 100%;
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: left;
+}
+
+.task__actions {
+  flex: 0 1 auto;
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.task__action {
+  flex: 0 1 auto;
+}
+
+.task__action__icon {
+  position: relative;
+  display: block;
+  width: 1.3rem;
+  height: auto;
+}
+
+.task__action__icon svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
