@@ -4,6 +4,7 @@ import TaskSection from './TaskSection';
 import EmptyState from './EmptyList';
 
 function TaskList() {
+  //#region Component Scope
   const [tasks, setTasks] = useState( [
     'Clean laptop fans',
     'Call my cat handsome',
@@ -30,6 +31,11 @@ function TaskList() {
     setNewTask( '' );
   }
 
+  function clearTasks() {
+    setTasks( [] );
+    setNewTask( '' );
+  }
+
   function deleteTask( index ) {
     console.log(index);
     const updatedTasks = tasks.filter( ( _, i ) => i !== index );
@@ -51,12 +57,17 @@ function TaskList() {
     [updatedTasks[index], updatedTasks[index + 1]] = [updatedTasks[index + 1], updatedTasks[index]];
     setTasks( updatedTasks );
   }
+  //#endregion
 
   return (
     <>
-      <TaskForm newTask={ newTask } onChange={ handleInputChange } onKeyUp={ handleInputEnter } addTask={ addTask } />
+      <TaskForm newTask={ newTask } onChange={ handleInputChange } onKeyUp={ handleInputEnter } addTask={ addTask } clearTasks={ clearTasks } />
 
-      { tasks.length ? <TaskSection tasks={ tasks } handleDelete={ deleteTask } handleMoveUp={ moveTaskUp } handleMoveDown={ moveTaskDown } /> : <EmptyState /> }
+      {
+        tasks.length
+          ? <TaskSection tasks={ tasks } handleDelete={ deleteTask } handleMoveUp={ moveTaskUp } handleMoveDown={ moveTaskDown } />
+          : <EmptyState />
+      }
     </>
   );
 }

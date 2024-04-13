@@ -29,7 +29,8 @@ header {
   flex: 1 1 auto;
 }
 
-.add-button {
+.add-button,
+.reset-button {
   flex: 0 1 auto;
   margin-left: 1rem;
   font-size: 1rem;
