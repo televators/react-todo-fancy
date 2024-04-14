@@ -1,22 +1,31 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import debounce from './debounce.js';
 import TaskForm from './TaskForm';
 import TaskSection from './TaskSection';
 import EmptyState from './EmptyList';
 
 function TaskList() {
   //#region Component Scope
-  const [tasks, setTasks] = useState( [
-    'Clean laptop fans',
-    'Call my cat handsome',
-    'Change guitar strings',
-    '???',
-    'Profit!!!'
-  ] );
+  const [tasks, setTasks] = useState( () => {
+    const storedTasks = localStorage.getItem( 'tasks' );
+    return storedTasks
+      ? JSON.parse( storedTasks )
+      : ['Do a thing','Do a different thing'];
+  } );
   const [newTask, setNewTask] = useState( '' );
 
-  function handleInputChange( event ) {
+  useEffect( () => {
+    try {
+      localStorage.setItem( 'tasks', JSON.stringify( tasks ) );
+      console.log( JSON.parse( localStorage.getItem( 'tasks' ) ) );
+    } catch ( error ) {
+      console.error( 'Failed to save tasks to LocalStorage:', error );
+    }
+  }, [tasks] );
+
+  const handleInputChange = debounce( ( event ) => {
     setNewTask( event.target.value );
-  }
+  }, 300 );
 
   function handleInputEnter( e ) {
     if ( e.keyCode == '13' || e.key == 'Enter' ) {
