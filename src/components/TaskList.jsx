@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import debounce from './debounce.js';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import TaskForm from './TaskForm';
 import TaskSection from './TaskSection';
 import EmptyState from './EmptyList';
+import debounce from 'lodash.debounce';
 
 function TaskList() {
   //#region Component Scope
@@ -14,18 +14,29 @@ function TaskList() {
   } );
   const [newTask, setNewTask] = useState( '' );
 
+  const debouncedSetNewTask = useCallback( debounce( ( value ) => {
+    setNewTask( value );
+    console.log( 'setNewTask happened:', value );
+  }, 300 ), [] );
+
+  useEffect( () => {
+    return () => debouncedSetNewTask.cancel();
+  }, [debouncedSetNewTask] );
+
   useEffect( () => {
     try {
       localStorage.setItem( 'tasks', JSON.stringify( tasks ) );
-      console.log( JSON.parse( localStorage.getItem( 'tasks' ) ) );
     } catch ( error ) {
       console.error( 'Failed to save tasks to LocalStorage:', error );
     }
   }, [tasks] );
 
-  const handleInputChange = debounce( ( event ) => {
-    setNewTask( event.target.value );
-  }, 300 );
+  function handleInputChange( event ) {
+    const { value } = event.target;
+    console.log('Inside handleInputChange...');
+    setNewTask( value );
+    debouncedSetNewTask( value );
+  }
 
   function handleInputEnter( e ) {
     if ( e.keyCode == '13' || e.key == 'Enter' ) {
@@ -36,13 +47,13 @@ function TaskList() {
   function addTask() {
     if ( newTask.trim() === '' ) return;
 
-    setTasks( prevTasks => [...prevTasks, newTask] );
+    setTasks( [...tasks, newTask] );
     setNewTask( '' );
   }
 
   function clearTasks() {
     setTasks( [] );
-    setNewTask( '' );
+    setNewTask('');
   }
 
   function deleteTask( index ) {
