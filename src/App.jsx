@@ -1,5 +1,5 @@
 import './App.css'
-import TaskList from './components/TaskList';
+import TaskTracker from './components/TaskTracker';
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
         <p><em>There are many like it, but this one is mine.</em></p>
       </header>
 
-      <TaskList />
+      <TaskTracker />
     </main>
   )
 }
